@@ -45,6 +45,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
 button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{font-size:16px}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .num{font-variant-numeric:tabular-nums}
 
@@ -240,7 +241,7 @@ td.c{text-align:center}
     <div>
       <div class="eyebrow">Rumbo a Punta Cana</div>
       <h1>Reto 75 Soft</h1>
-      <div class="sub">Juan &amp; Isabel · 17 nov 2026 → 30 ene 2027</div>
+      <div class="sub">Alejo &amp; Isa · 17 nov 2026 → 30 ene 2027</div>
     </div>
     <div class="counters">
       <div class="counter"><b id="cDay" class="num">–</b><span id="cDayLbl">día del reto</span></div>
@@ -256,8 +257,8 @@ td.c{text-align:center}
       <div class="hint">Marca cada regla apenas la cumplas: se guarda y se sincroniza sola, sin cuenta ni correo. Para corregir otro día, cambia la fecha.</div>
       <div class="todaybox" id="todaybox"></div>
       <div class="seg" role="group" aria-label="¿Quién registra?">
-        <button type="button" id="pJuan" data-p="juan" aria-pressed="true"><span class="dot juan"></span>Soy Juan</button>
-        <button type="button" id="pIsa" data-p="isabel" aria-pressed="false"><span class="dot isa"></span>Soy Isabel</button>
+        <button type="button" id="pAlejo" data-p="juan" aria-pressed="true"><span class="dot juan"></span>Soy Alejo</button>
+        <button type="button" id="pIsa" data-p="isabel" aria-pressed="false"><span class="dot isa"></span>Soy Isa</button>
       </div>
       <form id="f" novalidate>
         <div class="row" style="justify-content:space-between">
@@ -354,14 +355,14 @@ td.c{text-align:center}
 
       <section class="panel" aria-labelledby="hWeight">
         <h2 id="hWeight">Peso</h2>
-        <div class="series-legend"><span><i class="dot juan"></i>Juan</span><span><i class="dot isa"></i>Isabel</span></div>
+        <div class="series-legend"><span><i class="dot juan"></i>Alejo</span><span><i class="dot isa"></i>Isa</span></div>
         <div class="chart" id="wchart"></div>
       </section>
 
       <section class="panel" aria-labelledby="hHab">
         <h2 id="hHab">Cumplimiento por hábito</h2>
         <div class="hint">Porcentaje de días registrados del reto en que se cumplió cada regla. El sueño se mide, pero no hace fallar el día.</div>
-        <div class="series-legend"><span><i class="dot juan"></i>Juan</span><span><i class="dot isa"></i>Isabel</span></div>
+        <div class="series-legend"><span><i class="dot juan"></i>Alejo</span><span><i class="dot isa"></i>Isa</span></div>
         <div class="hb" id="habits"></div>
       </section>
 
@@ -392,7 +393,7 @@ td.c{text-align:center}
 const START="2026-11-17", BASE=75, TRIP="2027-04-17", MINDATE="2026-11-16", KEY="reto75-registros";
 const TIPOS=["","Gimnasio","En casa","Al aire libre","Recuperación activa"];
 const HITOS=[[7,"Primera semana"],[21,"Hábito instalado"],[38,"Mitad del reto"],[50,"Recta final"],[75,"Meta cumplida"]];
-const P={juan:{name:"Juan",cls:"juan",color:"var(--juan)"},isabel:{name:"Isabel",cls:"isa",color:"var(--isa)"}};
+const P={juan:{name:"Alejo",cls:"juan",color:"var(--juan)"},isabel:{name:"Isa",cls:"isa",color:"var(--isa)"}};
 const MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 const $=id=>document.getElementById(id);
 const S={persona:"juan",docs:new Map(),all:new Map(),first:true,agua:0,tm:0};
@@ -517,7 +518,7 @@ function renderHeader(){
 // ---- form
 function setPersona(p){
   S.persona=p;
-  $("pJuan").setAttribute("aria-pressed",p==="juan"); $("pIsa").setAttribute("aria-pressed",p==="isabel");
+  $("pAlejo").setAttribute("aria-pressed",p==="juan"); $("pIsa").setAttribute("aria-pressed",p==="isabel");
   loadForm();
 }
 function setAgua(v){
@@ -578,7 +579,7 @@ function renderDash(){
   else if(!D[otro].last) L=`${P[otro].name} todavía no ha registrado nada.`;
   else if(!a.elapsed&&!b.elapsed) L="Día 1: marquen cada regla apenas la cumplan.";
   else if(a.ok===b.ok) L=`Van empatados: ${a.ok} días cumplidos cada uno.`;
-  else { const w=a.ok>b.ok?"Juan":"Isabel", hi=Math.max(a.ok,b.ok), lo=Math.min(a.ok,b.ok); L=`${w} va ganando: ${hi} días cumplidos contra ${lo}.`; }
+  else { const w=a.ok>b.ok?"Alejo":"Isa", hi=Math.max(a.ok,b.ok), lo=Math.min(a.ok,b.ok); L=`${w} va ganando: ${hi} días cumplidos contra ${lo}.`; }
   $("leader").textContent=L;
   const team=a.days.filter(d=>d.st==="ok"&&b.days.some(x=>x.date===d.date&&x.st==="ok")).length;
   $("team").textContent=(dayOf(t)<1?"":`Días perfectos en equipo: ${team}. `)+"El mejor día es el que cumplen los dos.";
@@ -646,7 +647,7 @@ function renderWeight(D){
   }
   g+=`<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${H-m.b}" stroke="var(--muted)" stroke-dasharray="3 3" visibility="hidden"/>`;
   g+=`<rect id="hit" x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="transparent"/>`;
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Peso de Juan e Isabel por día del reto">${g}</svg>`;
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Peso de Alejo e Isa por día del reto">${g}</svg>`;
   const svg=el.querySelector("svg"), hit=el.querySelector("#hit"), xh=el.querySelector("#xh");
   const days=[...new Set(all.map(w=>w.day))].sort((a,b)=>a-b);
   hit.addEventListener("pointermove",e=>{
@@ -666,7 +667,7 @@ function renderHabits(D){
     $("habits").innerHTML=`<div class="empty">Desde el día 1 aquí verán qué regla le cuesta más a cada uno.</div>`;return;}
   $("habits").innerHTML=H.map(([k,l])=>`<div class="h"><span>${l}</span><div class="bars">${["juan","isabel"].map(p=>{
     const v=D[p].hab[k]; return `<div class="bar" title="${P[p].name}: ${v===null?"sin datos":v+" %"}"><div class="track"><div class="fill ${P[p].cls}" style="width:${v||0}%"></div></div><span class="v num">${v===null?"–":v+" %"}</span></div>`}).join("")}</div></div>`).join("")
-   + `<div class="hint">🍹 Días con alcohol: Juan ${D.juan.alcohol} · Isabel ${D.isabel.alcohol}</div>`;
+   + `<div class="hint">🍹 Días con alcohol: Alejo ${D.juan.alcohol} · Isa ${D.isabel.alcohol}</div>`;
 }
 
 function renderHist(){
@@ -739,7 +740,7 @@ const MER=[
 const GUIA=[
  ["Las reglas",["Ejercicio: 45 minutos al día. El domingo es recuperación activa.","Comer bien: proteína en cada comida, verduras en almuerzo y cena, sin gaseosa ni comida rápida, nada después de las 9 p.m.","Agua: 3 litros.","Lectura: 10 páginas de cualquier libro.","Alcohol: máximo una ocasión social por semana, contada de lunes a domingo.","Día fallado o sin registro: X roja y un día extra al final. No se reinicia."]],
  ["Peso, cintura y foto",["Día 1 y cada lunes: en ayunas, después de ir al baño, con la misma báscula.","Cintura a la altura del ombligo, sin apretar la cinta y sin meter la barriga.","Foto de frente y de perfil el día 1 y cada dos semanas, con la misma luz y la misma ropa.","Ritmo sano: bajar entre 0,5 % y 1 % del peso por semana. Más rápido se pierde músculo.","El peso sube y baja 1 o 2 kg por agua, sal y ciclo menstrual. Miren la tendencia de 2 o 3 semanas, no un solo lunes.","Comparen el porcentaje de cambio, no los kilos: los cuerpos de los dos responden distinto."]],
- ["Comida",["Proteína del tamaño de la palma en cada comida. Juan: palma y media.","Medio plato de verduras en almuerzo y cena.","Coman algo con proteína en las 2 horas después de entrenar.","No se salten comidas para compensar: llegan con más hambre a la siguiente.","Si un día se salen del plan, la siguiente comida vuelve a la normalidad. Sin castigos ni ayunos."]],
+ ["Comida",["Proteína del tamaño de la palma en cada comida. Alejo: palma y media.","Medio plato de verduras en almuerzo y cena.","Coman algo con proteína en las 2 horas después de entrenar.","No se salten comidas para compensar: llegan con más hambre a la siguiente.","Si un día se salen del plan, la siguiente comida vuelve a la normalidad. Sin castigos ni ayunos."]],
  ["Agua y sueño",["Repartan el agua: 1 litro antes del almuerzo, 1 en la tarde y 1 entre comidas y ejercicio.","No más de 1 litro por hora. Cuentan el agua y las aromáticas sin azúcar.","Orina amarillo claro: van bien. Si 3 litros le cae pesado a alguno, hablen de bajar su meta a 2,5.","Duerman de 7 a 8 horas. Con poco sueño da más hambre y el cuerpo se recupera peor.","Pantallas apagadas 30 minutos antes de dormir."]],
  ["Entrenar sin lesionarse",["Calienten siempre, aunque tengan afán.","Semanas 1 a 3: esfuerzo de 6 o 7 sobre 10. Deben terminar con ganas de volver.","Molestia muscular uno o dos días después es normal.","Con dolor fuerte, cambien ese día por 45 minutos de caminata. También cuenta.","Suban el peso solo cuando todas las repeticiones salgan con buena técnica."]],
  ["Paren y consulten a un médico si sienten",["Dolor u opresión en el pecho.","Mareo fuerte o sensación de desmayo.","Falta de aire que no cede al descansar.","Dolor agudo o hinchazón en una articulación."],1],
@@ -772,7 +773,7 @@ function renderPlan(){
       <div class="meal"><b>Cena</b><span>${m.ce}</span></div></div>
       <div class="block"><h4>Cómo servir el plato</h4><dl class="ex">
        <dt>Verduras o ensalada</dt><dd>½ plato</dd><dt>Proteína</dt><dd>¼ plato · una palma</dd><dt>Arroz, papa, arepa o plátano</dt><dd>¼ plato · un puño</dd>
-       <dt>Juan</dt><dd>1¼–1½ puños de harina</dd><dt>Isabel</dt><dd>1 puño de harina</dd><dt>Para tomar</dt><dd>agua, aromática, café sin azúcar</dd></dl>
+       <dt>Alejo</dt><dd>1¼–1½ puños de harina</dd><dt>Isa</dt><dd>1 puño de harina</dd><dt>Para tomar</dt><dd>agua, aromática, café sin azúcar</dd></dl>
        <div class="pnote">Si les da hambre, repitan verduras o proteína, no harinas. Pueden intercambiar los menús de dos días.</div></div></div>`;
   } else if(PS.tab==="gui"){
     $("pbody").innerHTML=`<div class="guide">${GUIA.map(([h,its,warn])=>`<div class="block${warn?" warn":""}"><h4>${h}</h4><ul>${its.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("")}</div>
@@ -809,7 +810,7 @@ function hideNotice(){$("notice").hidden=true}
 
 // ---- wiring
 const pick=p=>{try{localStorage.setItem("reto75-persona",p)}catch(e){}hideNotice();setPersona(p);renderDash()};
-$("pJuan").onclick=()=>pick("juan"); $("pIsa").onclick=()=>pick("isabel");
+$("pAlejo").onclick=()=>pick("juan"); $("pIsa").onclick=()=>pick("isabel");
 $("wMinus").onclick=()=>{setAgua(S.agua-.25);store()}; $("wPlus").onclick=()=>{setAgua(S.agua+.25);store()}; $("wHalf").onclick=()=>{setAgua(S.agua+.5);store()};
 $("f").addEventListener("change",e=>{if(e.target.id!=="fecha")store()});
 $("syncNow").onclick=sync; $("keySave").onclick=keySave;
@@ -822,7 +823,7 @@ $("delYes").onclick=del;
 $("hist").addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(!b)return;const[p,f]=b.dataset.edit.split("|");$("fecha").value=f;setPersona(p);$("hLog").scrollIntoView({behavior:"smooth",block:"start"})});
 
 loadStore();
-if(S.first)showNotice("Toca «Soy Juan» o «Soy Isabel» una sola vez: este celular lo recuerda. Todo se guarda y se sincroniza solo, sin cuenta ni correo.");
+if(S.first)showNotice("Toca «Soy Alejo» o «Soy Isa» una sola vez: este celular lo recuerda. Todo se guarda y se sincroniza solo, sin cuenta ni correo.");
 const t0=today(); $("fecha").max=add(START,BASE+44); $("fecha").value=t0<MINDATE?MINDATE:t0;
 setPersona(S.persona); renderHeader(); renderDash(); renderPlan();
 setInterval(()=>{renderHeader();if(!document.hidden)sync()},60000);
