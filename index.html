@@ -460,6 +460,16 @@ function keySave(){
   CLAVE=k; try{localStorage.setItem("reto75-clave",k)}catch(e){} NET.err=""; $("keyIn").value=""; sync();
 }
 
+// ---- dates (local, noon to avoid DST edges)
+const pd=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c,12)};
+const fd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const add=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return fd(d)};
+const diff=(a,b)=>Math.round((pd(a)-pd(b))/864e5);
+const today=()=>fd(new Date());
+const nice=s=>{const d=pd(s);return `${d.getDate()} ${MES[d.getMonth()]}`};
+const dayOf=s=>diff(s,START)+1;
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
 try{const v=localStorage.getItem("reto75-persona");if(v&&P[v]){S.persona=v;S.first=false}}catch(e){}
 
 // ---- rules
