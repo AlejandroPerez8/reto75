@@ -108,7 +108,7 @@ textarea{width:100%;resize:vertical;min-height:58px}
 .water{flex-wrap:wrap}
 .water button.wide{width:auto;border-radius:999px;padding:0 12px;font-size:14px}
 .team{margin-top:10px;border-radius:12px;background:var(--accent-soft);padding:9px 13px;font-size:14px;font-weight:600}
-.tchip .ic.prog{background:var(--sun);color:#3b2a00;font-size:12px}
+.tchip .ic.curso{background:var(--sun);color:#3b2a00;font-size:12px}
 .sync textarea{font-family:ui-monospace,Consolas,monospace;font-size:12px;min-height:64px;word-break:break-all;margin-top:8px}
 .syncin{display:flex;flex-direction:column;gap:6px;margin-top:14px}
 .syncin textarea{margin-top:0}
@@ -600,7 +600,7 @@ function renderDash(){
   $("today").innerHTML=Object.keys(P).map(p=>{
     const r=S.docs.get(`${p}_${t}`); let ic,txt,sub;
     if(!r){ic=`<span class="ic wait">…</span>`;txt="Sin registrar hoy";sub="Pendiente";}
-    else{const m=missing(r); if(!m.length){ic=`<span class="ic ok">✓</span>`;txt="Cumplió hoy";sub="Las 4 reglas";} else {ic=`<span class="ic prog num">${4-m.length}/4</span>`;txt="Va en curso";sub="Falta: "+esc(m.join(", "));}}
+    else{const m=missing(r); if(!m.length){ic=`<span class="ic ok">✓</span>`;txt="Cumplió hoy";sub="Las 4 reglas";} else {ic=`<span class="ic curso num">${4-m.length}/4</span>`;txt="Va en curso";sub="Falta: "+esc(m.join(", "));}}
     return `<div class="tchip">${ic}<div><b><span class="dot ${P[p].cls}"></span> ${P[p].name} · ${txt}</b><small>${sub}</small></div></div>`;
   }).join("");
   // score cards
